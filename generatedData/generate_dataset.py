@@ -265,5 +265,4 @@ columns = [
 ]
 df = pd.DataFrame(data, columns=columns)
 
-# Save to CSV
 df.to_csv('../data/wapi_daktari_healthcare_dataset.csv', index=False)
