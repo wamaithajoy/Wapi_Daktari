@@ -1,11 +1,8 @@
-# src/ussd/ussd_app.py
-
 from fastapi import FastAPI
 from pydantic import BaseModel
 import joblib
 import numpy as np
 from src.api.utils import preprocess_features
-
 app = FastAPI()
 
 # Load the trained models and preprocessor
