@@ -1,8 +1,7 @@
-# src/api/app.py
-
 from flask import Flask, request, jsonify
 import joblib
 import numpy as np
+from mangum import Mangum
 
 app = Flask(__name__)
 
@@ -41,6 +40,8 @@ def predict_classification():
         'xgboost': label_encoder.inverse_transform(prediction_xgb).tolist(),
         'hybrid': label_encoder.inverse_transform(prediction_hybrid).tolist()
     })
+    
+handler = Mangum(app)    
 
 if __name__ == '__main__':
     app.run(debug=True)

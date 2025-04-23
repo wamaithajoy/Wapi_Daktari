@@ -1,4 +1,6 @@
 pandas
+Flask
+gunicorn
 numpy
 scikit-learn
 xgboost
