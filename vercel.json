@@ -2,16 +2,42 @@
     "version": 2,
     "builds": [
       {
-        "src": "src/api/app.py",
+        "src": "src/api/**",
         "use": "@vercel/python",
-        "config": { "maxLambdaSize": "50mb" }
+        "config": {
+          "buildCommand": "pip install -r requirements.txt",
+          "runCommand": "python src/api/app.py"
+        }
+      },
+      {
+        "src": "src/dashboard/**",
+        "use": "@vercel/static",
+        "config": {
+          "rootDirectory": "src/dashboard"
+        }
+      },
+      {
+        "src": "src/ussd/**",
+        "use": "@vercel/python",
+        "config": {
+          "buildCommand": "pip install -r requirements.txt",
+          "runCommand": "uvicorn src.ussd.ussd_app:app --host 0.0.0.0 --port 8000"
+        }
       }
     ],
     "routes": [
       {
         "src": "/api/(.*)",
         "dest": "src/api/app.py"
+      },
+      {
+        "src": "/dashboard/(.*)",
+        "dest": "src/dashboard/dashboard.py"
+      },
+      {
+        "src": "/ussd/(.*)",
+        "dest": "src/ussd/ussd_app.py"
       }
     ]
-  }
+  }  
   
