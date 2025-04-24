@@ -3,6 +3,8 @@ from pydantic import BaseModel
 import joblib
 import numpy as np
 from src.api.utils import preprocess_features
+from mangum import Mangum
+
 app = FastAPI()
 
 # Load the trained models and preprocessor
@@ -90,6 +92,9 @@ def ussd_response(request: USSDRequest):
     response = f"Best time to visit: {prediction_rf_reg[0]:.2f} mins (RF), {prediction_xgb_reg[0]:.2f} mins (XGB), {prediction_hybrid_reg[0]:.2f} mins (Hybrid). Congestion level: {label_encoder.inverse_transform(prediction_rf_class)[0]}, {label_encoder.inverse_transform(prediction_xgb_class)[0]}, {label_encoder.inverse_transform(prediction_hybrid_class)[0]}."
     return {"response": response}
 
+handler = Mangum(app)
+
 if __name__ == '__main__':
     import uvicorn
     uvicorn.run(app, host='0.0.0.0', port=8000)
+    

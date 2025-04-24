@@ -1,11 +1,9 @@
 pandas
 Flask
-gunicorn
 numpy
 scikit-learn
 xgboost
 joblib
-flask
 fastapi
 uvicorn
 streamlit
