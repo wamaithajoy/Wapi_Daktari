@@ -2,22 +2,22 @@
     "version": 2,
     "builds": [
       {
-        "src": "src/api/**",
+        "src": "../src/api/**",
         "use": "@vercel/python",
         "config": {
           "buildCommand": "pip install -r requirements.txt",
-          "runCommand": "python src/api/app.py"
+          "runCommand": "python ../src/api/app.py"
         }
       },
       {
         "src": "src/dashboard/**",
         "use": "@vercel/static",
         "config": {
-          "rootDirectory": "src/dashboard"
+          "rootDirectory": "../src/dashboard"
         }
       },
       {
-        "src": "src/ussd/**",
+        "src": "../src/ussd/**",
         "use": "@vercel/python",
         "config": {
           "buildCommand": "pip install -r requirements.txt",
@@ -28,15 +28,15 @@
     "routes": [
       {
         "src": "/api/(.*)",
-        "dest": "src/api/app.py"
+        "dest": "../src/api/app.py"
       },
       {
         "src": "/dashboard/(.*)",
-        "dest": "src/dashboard/dashboard.py"
+        "dest": "../src/dashboard/dashboard.py"
       },
       {
         "src": "/ussd/(.*)",
-        "dest": "src/ussd/ussd_app.py"
+        "dest": "../src/ussd/ussd_app.py"
       }
     ]
   }  

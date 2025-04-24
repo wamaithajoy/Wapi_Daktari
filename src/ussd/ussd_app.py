@@ -6,14 +6,14 @@ from src.api.utils import preprocess_features
 app = FastAPI()
 
 # Load the trained models and preprocessor
-rf_regressor = joblib.load('src/api/random_forest_regressor.pkl')
-xgb_regressor = joblib.load('src/api/xgboost_regressor.pkl')
-hybrid_regressor = joblib.load('src/api/hybrid_regressor.pkl')
-rf_classifier = joblib.load('src/api/random_forest_classifier.pkl')
-xgb_classifier = joblib.load('src/api/xgboost_classifier.pkl')
-hybrid_classifier = joblib.load('src/api/hybrid_classifier.pkl')
-preprocessor = joblib.load('src/api/preprocessor.pkl')
-label_encoder = joblib.load('src/api/label_encoder.pkl')
+rf_regressor = joblib.load('../src/api/random_forest_regressor.pkl')
+xgb_regressor = joblib.load('../src/api/xgboost_regressor.pkl')
+hybrid_regressor = joblib.load('../src/api/hybrid_regressor.pkl')
+rf_classifier = joblib.load('../src/api/random_forest_classifier.pkl')
+xgb_classifier = joblib.load('../src/api/xgboost_classifier.pkl')
+hybrid_classifier = joblib.load('../src/api/hybrid_classifier.pkl')
+preprocessor = joblib.load('../src/api/preprocessor.pkl')
+label_encoder = joblib.load('../src/api/label_encoder.pkl')
 
 class USSDRequest(BaseModel):
     hospital: str
