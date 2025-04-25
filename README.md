@@ -57,7 +57,9 @@ The system analyzes real hospital data using ML models to return:
 
 - Predicted congestion level
 
-All responses are sent instantly via USSD—no internet, app, or smartphone needed.
+- Doctor Availability
+
+All responses are sent instantly via USSD no internet, app, or smartphone needed.
 
 For Hospitals & Stakeholders (Streamlit Dashboard):
 Access the secure Streamlit Dashboard from a browser.
@@ -66,12 +68,32 @@ Filter by hospital, department, and date range.
 
 Visualize trends in:
 
-Patient load & flow
+- Patient load & flow
 
-Doctor availability
+- Doctor availability
 
-Average waiting times
+- Average waiting times
 
-Prediction accuracy
+- Prediction accuracy
 
-Upload new CSVs or manually input new data to simulate scenarios or feed future models.
+- Expected Walk-in patients
+
+- Upload new CSVs or manually input new data to simulate scenarios or feed future models.
+
+## Future Enhancements
+
+- Real-time hospital API integrations
+
+- SMS-based appointment reminders
+
+- Region-specific awareness alerts (Eg; strikes, outbreaks, holidays)
+
+- Multi-language USSD support
+
+- Toggle: daily vs weekly data view
+
+## Credits
+
+Built by: Joy Wamaitha
+
+Email: joyywamaitha@gmail.com
