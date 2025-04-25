@@ -1,19 +1,23 @@
 from flask import Flask, request, jsonify
 import joblib
 import numpy as np
-from mangum import Mangum
 
 app = Flask(__name__)
 
+data = request.get_json(force=True)
+features = np.array(data['features'])
+
+print(f"Shape of features: {features.shape}")
+
 # Load the trained models and preprocessor
-rf_regressor = joblib.load('../src/api/random_forest_regressor.pkl')
-xgb_regressor = joblib.load('../src/api/xgboost_regressor.pkl')
-hybrid_regressor = joblib.load('../src/api/hybrid_regressor.pkl')
-rf_classifier = joblib.load('../src/api/random_forest_classifier.pkl')
-xgb_classifier = joblib.load('../src/api/xgboost_classifier.pkl')
-hybrid_classifier = joblib.load('../src/api/hybrid_classifier.pkl')
-preprocessor = joblib.load('../src/api/preprocessor.pkl')
-label_encoder = joblib.load('../src/api/label_encoder.pkl')
+rf_regressor = joblib.load('/home/user/Desktop/Wapi Daktari/src/api/random_forest_regressor.pkl')
+xgb_regressor = joblib.load('/home/user/Desktop/Wapi Daktari/src/api/xgboost_regressor.pkl')
+hybrid_regressor = joblib.load('/home/user/Desktop/Wapi Daktari/src/api/hybrid_regressor.pkl')
+rf_classifier = joblib.load('/home/user/Desktop/Wapi Daktari/src/api/random_forest_classifier.pkl')
+xgb_classifier = joblib.load('/home/user/Desktop/Wapi Daktari/src/api/xgboost_classifier.pkl')
+hybrid_classifier = joblib.load('/home/user/Desktop/Wapi Daktari/src/api/hybrid_classifier.pkl')
+preprocessor = joblib.load('/home/user/Desktop/Wapi Daktari/src/api/preprocessor.pkl')
+label_encoder = joblib.load('/home/user/Desktop/Wapi Daktari/src/api/label_encoder.pkl')
 
 @app.route('/predict_regression', methods=['POST'])
 def predict_regression():
@@ -40,8 +44,6 @@ def predict_classification():
         'xgboost': label_encoder.inverse_transform(prediction_xgb).tolist(),
         'hybrid': label_encoder.inverse_transform(prediction_hybrid).tolist()
     })
-    
-handler = Mangum(app)    
 
 
 if __name__ == '__main__':

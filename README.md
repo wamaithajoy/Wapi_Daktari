@@ -11,3 +11,55 @@ Most Kenyans visiting public hospitals don’t know if the doctor is available, 
 ## Objective
 
 To empower walk-in patients at public hospitals with data-backed predictions on the best time to visit—via a simple USSD interface that works on any phone. The goal is to reduce wasted time, manage hospital congestion, and improve access to care without requiring logins or apps.
+
+## Technologies Used
+
+FastAPI – API backend for handling USSD requests and predictions
+
+Python – Core language for ML and backend logic
+
+Joblib – Model loading and persistence
+
+Scikit-learn – Preprocessing, training, and evaluation
+
+NumPy – Numerical computations
+
+Pydantic – Data validation and serialization
+
+Africastalking – USSD integration for mobile interaction
+
+Streamlit – Interactive dashboard for hospitals and stakeholders
+
+## How It Works
+
+For Patients (USSD):
+A user dials the USSD code on any mobile phone.
+
+They select their hospital and department.
+
+The system analyzes real hospital data using ML models to return:
+
+- Best time to visit
+
+- Estimated waiting time
+
+- Predicted congestion level
+
+All responses are sent instantly via USSD—no internet, app, or smartphone needed.
+
+For Hospitals & Stakeholders (Streamlit Dashboard):
+Access the secure Streamlit Dashboard from a browser.
+
+Filter by hospital, department, and date range.
+
+Visualize trends in:
+
+Patient load & flow
+
+Doctor availability
+
+Average waiting times
+
+Prediction accuracy
+
+Upload new CSVs or manually input new data to simulate scenarios or feed future models.
