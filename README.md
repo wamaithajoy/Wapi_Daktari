@@ -6,11 +6,21 @@ Wapi Daktari is a public healthcare crowd-management and awareness system design
 
 ## Problem
 
-Most Kenyans visiting public hospitals don’t know if the doctor is available, how long the wait will be, or if they'll even be seen. This uncertainty wastes time, discourages care-seeking, and overloads hospitals randomly. There’s no access to real-time hospital insights—especially for low-income patients without smartphones or internet access.
+Most Kenyans visiting public hospitals;
+
+- Don’t know if the doctor is available,
+- How long the wait will be, or if they'll even be seen.
+- They cant afford private healthcare or appointment systems.
+
+This uncertainty wastes time, discourages care-seeking, and overloads hospitals randomly. There’s no access to real-time hospital insights—especially for low-income patients without smartphones or internet access.
 
 ## Objective
 
 To empower walk-in patients at public hospitals with data-backed predictions on the best time to visit—via a simple USSD interface that works on any phone. The goal is to reduce wasted time, manage hospital congestion, and improve access to care without requiring logins or apps.
+
+Wapi Daktari Answers the question?
+
+When is the best time for me to go to the hospiotal today?
 
 ## Technologies Used
 
