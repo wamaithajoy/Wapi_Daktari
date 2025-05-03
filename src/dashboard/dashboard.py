@@ -8,7 +8,7 @@ st.set_page_config(layout="wide")
 st.title('📊 Wapi Daktari Healthcare Dashboard')
 
 # Sidebar Upload
-st.sidebar.header("📁 Upload Your CSV")
+st.sidebar.header("Upload Your CSV")
 uploaded_file = st.sidebar.file_uploader("Upload healthcare data CSV", type="csv")
 
 # Load default dataset or uploaded
@@ -25,14 +25,14 @@ preprocessor = joblib.load('/home/user/Desktop/Wapi Daktari/src/api/preprocessor
 label_encoder = joblib.load('/home/user/Desktop/Wapi Daktari/src/api/label_encoder.pkl')
 
 # Sidebar filters
-hospital = st.sidebar.selectbox('🏥 Select Hospital', df['hospital_name'].unique())
-department = st.sidebar.selectbox('🧪 Select Department', df['department'].unique())
+hospital = st.sidebar.selectbox('Select Hospital', df['hospital_name'].unique())
+department = st.sidebar.selectbox('Select Department', df['department'].unique())
 
 min_date = df['date'].min().date()
 max_date = df['date'].max().date()
 default_date = min_date
 
-date_picker = st.sidebar.date_input('📅 Select Date', value=default_date, min_value=min_date, max_value=max_date)
+date_picker = st.sidebar.date_input('Select Date', value=default_date, min_value=min_date, max_value=max_date)
 
 filtered_data = df[
     (df['hospital_name'] == hospital) &
@@ -47,7 +47,7 @@ if filtered_data.empty:
     st.warning("No data for this hospital, department, and date. Try a different filter.")
     st.stop()
 
-with st.expander("📄 View Filtered Data"):
+with st.expander("View Filtered Data"):
     st.dataframe(filtered_data)
 
 if st.sidebar.button("🔁 Reset Filters"):
@@ -58,22 +58,21 @@ filtered_data['doctor_available'] = filtered_data['doctor_available'].apply(lamb
 filtered_data['waiting_time_minutes'] = pd.to_numeric(filtered_data['waiting_time_minutes'], errors='coerce')
 filtered_data.dropna(subset=['waiting_time_minutes'], inplace=True)
 
-# ⚡ VISUALS ⚡
+# VISUALS
 
-# ⏱️ Waiting Time Distribution (UPDATED TO BAR)
-st.subheader("⏱️ Waiting Time Distribution")
+#Waiting Time Distribution
+st.subheader("Waiting Time Distribution")
 waiting_time_summary = filtered_data.groupby('time_block')['waiting_time_minutes'].mean().reset_index()
 fig = px.bar(waiting_time_summary, x='time_block', y='waiting_time_minutes', title="Average Waiting Time by Time Block")
 st.plotly_chart(fig, use_container_width=True)
 
-# ✨ Updated Waiting Time logic ✨
 if not filtered_data.empty:
     avg_waiting_time = filtered_data['waiting_time_minutes'].mean()
     st.write(f"**Predicted Avg. Waiting Time:** {avg_waiting_time:.2f} minutes")
 else:
     st.write("**Predicted Avg. Waiting Time:** No data available.")
 
-st.subheader("📶 Congestion Level")
+st.subheader("Congestion Level")
 fig = px.histogram(filtered_data, x='congestion_level', title="Congestion Level Distribution")
 st.plotly_chart(fig, use_container_width=True)
 mode_cong = filtered_data['congestion_level'].mode()[0]
@@ -85,54 +84,44 @@ fig = px.bar(filtered_data, x='time_block', y='expected_walk_ins', color='day_of
 st.plotly_chart(fig, use_container_width=True)
 st.write(f"**Total Expected Walk-Ins:** {filtered_data['expected_walk_ins'].sum()} patients")
 
-st.subheader("🧑‍⚕️ Doctor Availability")
+st.subheader("Doctor Availability")
 fig = px.bar(filtered_data, x='time_block', y='doctor_available', color='day_of_week', title="Doctor Availability by Time Block")
 st.plotly_chart(fig, use_container_width=True)
 doc_mean = filtered_data['doctor_available'].mean()
 st.write(f"**Doctor Status:** {'Available' if doc_mean > 0 else 'Not Available'}")
 
-# 🧮 Patient Load Ratio (UPDATED TO BAR)
-st.subheader("🧮 Patient Load Ratio")
+st.subheader("Patient Load Ratio")
 load_ratio_summary = filtered_data.groupby('time_block')['patient_load_ratio'].mean().reset_index()
 fig = px.bar(load_ratio_summary, x='time_block', y='patient_load_ratio', title="Patient Load Ratio by Time Block")
 st.plotly_chart(fig, use_container_width=True)
 
-# ✨ Updated Patient Load Ratio logic ✨
 if not filtered_data.empty:
     avg_load_ratio = filtered_data['patient_load_ratio'].mean()
     st.write(f"**Avg. Load Ratio:** {avg_load_ratio:.2f} patients per doctor")
 else:
     st.write("**Avg. Load Ratio:** No data available.")
 
-# 👨‍⚕️ Doctor to Patient Ratio (UPDATED TO BAR)
-st.subheader("👨‍⚕️ Doctor to Patient Ratio")
+st.subheader("Doctor to Patient Ratio")
 doc_patient_summary = filtered_data.groupby('time_block')['doctor_patient_ratio'].mean().reset_index()
 fig = px.bar(doc_patient_summary, x='time_block', y='doctor_patient_ratio', title="Doctor to Patient Ratio by Time Block")
 st.plotly_chart(fig, use_container_width=True)
 
-# ✨ Updated Doctor Patient Ratio logic ✨
 if not filtered_data.empty:
     avg_doc_patient_ratio = filtered_data['doctor_patient_ratio'].mean()
     st.write(f"**Avg. Doc/Patient Ratio:** {avg_doc_patient_ratio:.2f}")
 else:
     st.write("**Avg. Doc/Patient Ratio:** No data available.")
 
-st.subheader("🚨 Emergencies & Seasonal Illnesses")
+st.subheader("Emergencies & Seasonal Illnesses")
 fig = px.line(filtered_data, x='time_block', y=['emergencies', 'seasonal_illnesses'], markers=True)
 st.plotly_chart(fig, use_container_width=True)
 st.write(f"**Emergencies:** {filtered_data['emergencies'].sum()}")
 st.write(f"**Seasonal Illnesses:** {filtered_data['seasonal_illnesses'].sum()}")
 
-st.subheader("🎉 Public Holidays & Events")
-fig = px.bar(filtered_data, x='time_block', y='public_holidays_events')
-st.plotly_chart(fig, use_container_width=True)
-st.write(f"**Events/Holidays Count:** {filtered_data['public_holidays_events'].sum()}")
-
-st.subheader("🌦️ Weather Impact")
+st.subheader("Weather Impact")
 fig = px.scatter(filtered_data, x='temperature', y='actual_patients', color='humidity')
 st.plotly_chart(fig, use_container_width=True)
 
-# ✨ Updated Weather Impact logic ✨
 if not filtered_data.empty:
     avg_temp = filtered_data['temperature'].mean()
     avg_humidity = filtered_data['humidity'].mean()
@@ -142,11 +131,11 @@ else:
     st.write("**Avg. Temperature:** No data available.")
     st.write("**Avg. Humidity:** No data available.")
 
-# 📝 Input Form
-st.subheader('📝 Input Hospital Records (for Presentation)')
+# Input Form
+st.subheader('Please Input Hospital Records')
 with st.form("input_form"):
-    input_hospital = st.text_input("Hospital Name")
-    input_department = st.text_input("Department")
+    input_hospital = st.text_input("Hospital Name", ['Mbagathi', 'KNH', 'Mama Lucy', 'Pumwani', 'Kenyatta'])
+    input_department = st.text_input("Department", ['Pediatrics', 'Emergency', 'Maternity', 'General', 'Surgery'])
     input_date = st.date_input("Date")
     input_waiting_time = st.number_input("Waiting Time (minutes)", min_value=0)
     input_congestion_level = st.selectbox("Congestion Level", ["Low", "Medium", "High"])
@@ -178,10 +167,10 @@ with st.form("input_form"):
             'temperature': [input_temperature],
             'humidity': [input_humidity]
         })
-        st.success("✅ Record captured below:")
+        st.success("Record captured below:")
         st.dataframe(input_data)
 
-# Tooltips
+
 st.markdown("### Tooltips")
 st.write("**Waiting Time Distribution:** Shows the distribution of waiting times for patients.")
 st.write("**Congestion Level Distribution:** Shows the distribution of congestion levels at the hospital.")

@@ -4,11 +4,6 @@ import numpy as np
 
 app = Flask(__name__)
 
-data = request.get_json(force=True)
-features = np.array(data['features'])
-
-print(f"Shape of features: {features.shape}")
-
 # Load the trained models and preprocessor
 rf_regressor = joblib.load('/home/user/Desktop/Wapi Daktari/src/api/random_forest_regressor.pkl')
 xgb_regressor = joblib.load('/home/user/Desktop/Wapi Daktari/src/api/xgboost_regressor.pkl')
@@ -45,6 +40,48 @@ def predict_classification():
         'hybrid': label_encoder.inverse_transform(prediction_hybrid).tolist()
     })
 
+@app.route('/ussd', methods=['POST'])
+def ussd_callback():
+    session_id = request.values.get("sessionId", None)
+    service_code = request.values.get("serviceCode", None)
+    phone_number = request.values.get("phoneNumber", None)
+    text = request.values.get("text", "")
+
+    user_response = text.strip().split('*')
+    level = len(user_response)
+
+    if text == "":
+        response = "CON Welcome to Wapi Daktari\n"
+        response += "1. Predict Regression\n"
+        response += "2. Predict Classification"
+    elif text == "1":
+        response = "CON Enter features (comma-separated):"
+    elif text == "2":
+        response = "CON Enter features (comma-separated):"
+    elif user_response[0] == "1" and level == 2:
+        try:
+            features = [float(i) for i in user_response[1].split(',')]
+            features = preprocessor.transform(np.array(features).reshape(1, -1))
+            prediction_rf = rf_regressor.predict(features)[0]
+            prediction_xgb = xgb_regressor.predict(features)[0]
+            prediction_hybrid = hybrid_regressor.predict(features)[0]
+            response = f"END RF: {prediction_rf:.2f}, XGB: {prediction_xgb:.2f}, Hybrid: {prediction_hybrid:.2f}"
+        except:
+            response = "END Invalid input. Use comma-separated numbers."
+    elif user_response[0] == "2" and level == 2:
+        try:
+            features = [float(i) for i in user_response[1].split(',')]
+            features = preprocessor.transform(np.array(features).reshape(1, -1))
+            prediction_rf = label_encoder.inverse_transform(rf_classifier.predict(features))[0]
+            prediction_xgb = label_encoder.inverse_transform(xgb_classifier.predict(features))[0]
+            prediction_hybrid = label_encoder.inverse_transform(hybrid_classifier.predict(features))[0]
+            response = f"END RF: {prediction_rf}, XGB: {prediction_xgb}, Hybrid: {prediction_hybrid}"
+        except:
+            response = "END Invalid input. Use comma-separated numbers."
+    else:
+        response = "END Invalid choice. Try again."
+
+    return response
 
 if __name__ == '__main__':
     app.run(debug=True)
