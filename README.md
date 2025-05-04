@@ -97,5 +97,3 @@ Visualize trends in:
 Built by: Joy Wamaitha
 
 Email: joyywamaitha@gmail.com
-
-Kindly send me the full updated code, the full ussd.py code with all the chnages now, the fulll one, implementing holiday checking, like the date should match the holiday so follow how the calendar works, the Kenyan calender to be precise also with strikes you can put false lest asume therea rent any strikes for now...............................
