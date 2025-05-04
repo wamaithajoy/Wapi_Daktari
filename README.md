@@ -1,28 +1,48 @@
 # Wapi Daktari: Public Healthcare Crowd-Management System
 
-## Project Overview
+## Problem Statement
 
-Wapi Daktari is a public healthcare crowd-management and awareness system designed to help ordinary Kenyans, especially walk-in patients at public hospitals, by predicting the best time to visit a hospital based on past patterns of doctor availability, patient traffic, and waiting times.
+In Kenya, many citizens visiting public hospitals face significant challenges, among those challenges that are common are;
 
-The system provides real-time predictions via a simple USSD interface, ensuring that patients receive timely and actionable insights without the need for an app or account.
+- Uncertainity about doctor availability.
+- Unknown waiting times.
+- Lack of Information of whether they'll be seen at all.
 
-## Problem
+These issues affect ordinary kenyans who cant afford private healthcare or appointment systems. THis uncertainity leads to:
 
-Most Kenyans visiting public hospitals;
+- Wasted times for patients
+- Discouragement from seeking medical care.
+- Random overloading of hospital resources.
 
-- Don’t know if the doctor is available,
-- How long the wait will be, or if they'll even be seen.
-- They cant afford private healthcare or appointment systems.
+## Solution: Wapi Daktari
 
-This uncertainty wastes time, discourages care-seeking, and overloads hospitals randomly. There’s no access to real-time hospital insights especially for low-income patients without smartphones or internet access.
-
-## Objective
-
-To empower walk-in patients at public hospitals with data-backed predictions on the best time to visit via a simple USSD interface that works on any phone. The goal is to reduce wasted time, manage hospital congestion, and improve access to care without requiring logins or apps.
+Wapi Daktari is a public healthcare crowd-management and awareness system designed to empower ordinary kenyans, particularly walk-in patients at public hospitals. The system predicts the best time to visit a hospital based on historical patterns of doctor availability, patient traffic, and waiting times.
 
 Wapi Daktari Answers the question?
 
 When is the best time for me to go to the hospiotal today?
+
+## Key Features
+
+- Works via USSD, ensuring accessibility for all mobile phone users without requiring smartphones or Internet access.
+- Provide Instant, data-driven predictions for hospital visits.
+- Available in English and Kiswahili to cater to a wider audience.
+- Multiple hospital and departments support across Kenya.
+- Flexinble: Allows users to check predictions for today, tomorrow, day after tomorrow, or a specific date.
+
+## How it Works
+
+- Users dial *384*43371# on any mobile phone.
+- They select their preferred language ( English or Kiswahili).
+- Users choose their hospital and department of interest.
+- They select the date for their hospital visit.
+- The system analyzes real hospital data using machine learning models to return:
+
+1. Best time to visit the hospital
+2. Estimated waiting time
+3. Predicted congestion level
+
+All responses are sent instantly via USSD, requiring no internet, app, or smartphone.
 
 ## Technologies Used
 
@@ -30,55 +50,49 @@ FastAPI – API backend for handling USSD requests and predictions
 
 Python – Core language for ML and backend logic
 
+Pandas – Data manipulation and analysis
+
 Joblib – Model loading
 
 Scikit-learn – Preprocessing, training, and evaluation
 
 NumPy – Numerical computations
 
-Pydantic – Data validation and serialization
+Datetime – Date and time manipulation
 
 Africastalking – USSD integration for mobile interaction
 
 Streamlit – Interactive dashboard for hospitals and stakeholders
 
-## How It Works
+## Machine Learning Models
 
-For Patients (USSD):
-A user dials the USSD code on any mobile phone.
+Wapi Daktari employs six different machine learning models to provide accurate predictions:
 
-They select their hospital and department.
+1. Random Forest Regressor: Predicts waiting times
+2. XGBoost Regressor: Alternative model for waiting time prediction.
+3. Hybrid Regressor: Ensemble model combining Random Forest Regrossor and XGBoost for waiting time prediction.
+4. Random Forest Classifier: Predicts congestion levels.
+5. XGBoost Classifier: Alternative model for congestion level prediction.
+6. Hybrid Classifier: Ensemble model combining Random Forest Classifier and XGBoost for congestion level prediction.
 
-The system analyzes real hospital data using ML models to return:
+## Model Purpose
 
-- Best time to visit
+- Regressors: Predict continous values (waiting time in minutes)
+- Classifiers: Predict categorical values (congestion levels ie; Low, Medium, High)
+- Hybrid Models: Combine the strengths of both Random Forest and XGBoost to Improve prediction accuracy.
 
-- Estimated waiting time
+## USSD Application
 
-- Predicted congestion level
+The USSD application serves as the user interface for Wapi Daktari. It's designed to be simple, intuitive, and accessible on any mobile phone. The application flow is as follows:
 
-- Doctor Availability
+1.Language Selection
+2.Main Menu (Check best time or Change language)
+3.Hospital Selection
+4.Department Selection
+5.Date Selection
+6.Result Display
 
-All responses are sent instantly via USSD no internet, app, or smartphone needed.
-
-For Hospitals & Stakeholders (Streamlit Dashboard):
-Access the secure Streamlit Dashboard from a browser.
-
-Filter by hospital, department, and date range.
-
-Visualize trends in:
-
-- Patient load & flow
-
-- Doctor availability
-
-- Average waiting times
-
-- Prediction accuracy
-
-- Expected Walk-in patients
-
-- Upload new CSVs or manually input new data to simulate scenarios or feed future models.
+The application handles user inputs, manages the conversations flow, and integrates with the machine learning models to provide predictions.
 
 ## Future Enhancements
 
@@ -88,14 +102,16 @@ Visualize trends in:
 
 - Region-specific awareness alerts (Eg; strikes, outbreaks, holidays)
 
-- Multi-language USSD support
+- Expanded Language Support: Add more local languages to increase accessibility.
 
-- Toggle: daily vs weekly data view
+- Toggle for Daily vs Weekly Data View: Allowing users to see predictions for an entire week.
+
+- Feedback System.
+
+- Mobile APP Version: Develop a complimentary smartphone app for users who prefer a graphical interface.
 
 ## Credits
 
 Built by: Joy Wamaitha
 
 Email: joyywamaitha@gmail.com
-
-Kindly send me the full updated code, the full ussd.py code with all the chnages now, the fulll one, implementing holiday checking, like the date should match the holiday so follow how the calendar works, the Kenyan calender to be precise also with strikes you can put false lest asume therea rent any strikes for now...............................

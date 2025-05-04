@@ -87,9 +87,9 @@ def simulate_doctor_arrival_delay():
 
 # Helper function to determine congestion level
 def determine_congestion_level(actual_patients):
-    if actual_patients < 15:
+    if actual_patients < 50:
         return 'Low'
-    elif actual_patients < 30:
+    elif actual_patients < 80:
         return 'Medium'
     else:
         return 'High'
