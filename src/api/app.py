@@ -24,6 +24,10 @@ def home():
     app.logger.debug("Home route accessed")
     return "Welcome to Wapi Daktari API"
 
+@app.route('/test')
+def test():
+    return "Test endpoint working"
+
 @app.route('/predict_regression', methods=['POST'])
 def predict_regression():
     data = request.get_json(force=True)
