@@ -6,8 +6,8 @@ from datetime import datetime, timedelta
 import numpy as np
 import logging
 import os
+import sklearn
 app = Flask(__name__)
-
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -143,12 +143,14 @@ def predict_best_time(hospital_name, department, date_obj):
 
 @app.route("/ussd", methods=["POST"])
 def ussd():
+    logger.info("USSD endpoint hit")
     session_id = request.form.get("sessionId")
     phone_number = request.form.get("phoneNumber")
     text = request.form.get("text")
     
     logger.info(f"Received USSD request: SessionID: {session_id}, Phone: {phone_number}, Text: {text}")
-
+    logger.info(f"Full request data: {request.form}")
+    
     inputs = text.split("*")
     step = len(inputs)
 
