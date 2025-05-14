@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template_string
 import joblib
 import numpy as np
 import os
@@ -21,7 +21,7 @@ label_encoder = joblib.load(os.path.join(base_path, 'label_encoder.pkl'))
 @app.route('/')
 def home():
     app.logger.debug("Home route accessed")
-    return "Welcome to Wapi Daktari API"
+    return "Welcome to Wapi Daktari API. Visit /docs for API documentation."
 
 @app.route('/test')
 def test():
@@ -104,6 +104,66 @@ def ussd_callback():
         response = "END Invalid choice. Try again."
 
     return response
+
+@app.route('/docs')
+def docs():
+    html = """
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Wapi Daktari API Documentation</title>
+        <style>
+            body { font-family: Arial, sans-serif; line-height: 1.6; padding: 20px; max-width: 800px; margin: 0 auto; }
+            h1 { color: #333; }
+            h2 { color: #666; }
+            pre { background-color: #f4f4f4; padding: 10px; border-radius: 5px; }
+            .endpoint { margin-bottom: 30px; }
+        </style>
+    </head>
+    <body>
+        <h1>Wapi Daktari API Documentation</h1>
+        
+        <div class="endpoint">
+            <h2>1. Predict Regression</h2>
+            <p><strong>Endpoint:</strong> /predict_regression</p>
+            <p><strong>Method:</strong> POST</p>
+            <p><strong>Description:</strong> Predicts waiting time using regression models.</p>
+            <p><strong>Example Request:</strong></p>
+            <pre>
+curl -X POST https://wapi-daktari.onrender.com/predict_regression \
+-H "Content-Type: application/json" \
+-d '{"features": [1, 2, 3, 4, 5]}'
+            </pre>
+        </div>
+
+        <div class="endpoint">
+            <h2>2. Predict Classification</h2>
+            <p><strong>Endpoint:</strong> /predict_classification</p>
+            <p><strong>Method:</strong> POST</p>
+            <p><strong>Description:</strong> Predicts congestion level using classification models.</p>
+            <p><strong>Example Request:</strong></p>
+            <pre>
+curl -X POST https://wapi-daktari.onrender.com/predict_classification \
+-H "Content-Type: application/json" \
+-d '{"features": [1, 2, 3, 4, 5]}'
+            </pre>
+        </div>
+
+        <div class="endpoint">
+            <h2>3. USSD Service</h2>
+            <p><strong>Endpoint:</strong> /ussd</p>
+            <p><strong>Method:</strong> POST</p>
+            <p><strong>Description:</strong> Handles USSD interactions for the service.</p>
+            <p><strong>Note:</strong> This endpoint is typically accessed through a USSD gateway and not directly by users.</p>
+        </div>
+
+        <p>For more information or support, please contact the development team.</p>
+    </body>
+    </html>
+    """
+    return render_template_string(html)
 
 if __name__ == '__main__':
     if os.environ.get('FLASK_ENV') == 'production':
