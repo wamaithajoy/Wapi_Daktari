@@ -94,6 +94,21 @@ The USSD application serves as the user interface for Wapi Daktari. It's designe
 
 The application handles user inputs, manages the conversations flow, and integrates with the machine learning models to provide predictions.
 
+## Wapi Daktari Dashboard
+
+An interactive dashboard to visualize the data and predictions from Wapi Daktari. You can access it here:
+
+[Wapi Daktari Dashboard](https://wapidaktari-lwhs69lmrfyyfd7cnqww9o.streamlit.app/)
+
+This dashboard provides:
+
+- Real-time visualizations of hospital congestion levels
+- Waiting time predictions
+- Historical data trends
+- And more!
+
+Feel free to explore the dashboard to get a better understanding of the Wapi Daktari system in action.
+
 ## API Documentation
 
 The API documentation is available directly through the application. To access it:
