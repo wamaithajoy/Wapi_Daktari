@@ -94,6 +94,23 @@ The USSD application serves as the user interface for Wapi Daktari. It's designe
 
 The application handles user inputs, manages the conversations flow, and integrates with the machine learning models to provide predictions.
 
+## API Documentation
+
+The API documentation is available directly through the application. To access it:
+
+1. Visit https://wapi-daktari.onrender.com/docs in your web browser.
+2. This page provides detailed information about each endpoint, including:
+   - The endpoint URL
+   - The HTTP method to use
+   - A description of what the endpoint does
+   - Example curl commands for testing the endpoint
+
+You can use these examples to test the API directly from your terminal, or use them as a guide to integrate the API into your own applications.
+
+For the USSD service, please note that this is typically accessed through a USSD gateway and not directly by end-users. The documentation provides this information for completeness and for testing purposes.
+
+If you encounter any issues or have questions about using the API, please contact the development team.
+
 ## Future Enhancements
 
 - Real-time hospital API integrations
