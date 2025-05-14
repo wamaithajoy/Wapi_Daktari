@@ -4,22 +4,27 @@ import joblib
 import pandas as pd
 from datetime import datetime, timedelta
 import numpy as np
-import sklearn
-
+import logging
+import os
 app = Flask(__name__)
 
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
 # Load models and preprocessor
-rf_regressor = joblib.load('/home/user/Desktop/Wapi Daktari/src/api/random_forest_regressor.pkl')
-xgb_regressor = joblib.load('/home/user/Desktop/Wapi Daktari/src/api/xgboost_regressor.pkl')
-hybrid_regressor = joblib.load('/home/user/Desktop/Wapi Daktari/src/api/hybrid_regressor.pkl')
-rf_classifier = joblib.load('/home/user/Desktop/Wapi Daktari/src/api/random_forest_classifier.pkl')
-xgb_classifier = joblib.load('/home/user/Desktop/Wapi Daktari/src/api/xgboost_classifier.pkl')
-hybrid_classifier = joblib.load('/home/user/Desktop/Wapi Daktari/src/api/hybrid_classifier.pkl')
-preprocessor = joblib.load('/home/user/Desktop/Wapi Daktari/src/api/preprocessor.pkl')
-label_encoder = joblib.load('/home/user/Desktop/Wapi Daktari/src/api/label_encoder.pkl')
+base_path = os.path.dirname(os.path.abspath(__file__))
+rf_regressor = joblib.load(os.path.join(base_path, '..', 'api', 'random_forest_regressor.pkl'))
+xgb_regressor = joblib.load(os.path.join(base_path, '..', 'api', 'xgboost_regressor.pkl'))
+hybrid_regressor = joblib.load(os.path.join(base_path, '..', 'api', 'hybrid_regressor.pkl'))
+rf_classifier = joblib.load(os.path.join(base_path, '..', 'api', 'random_forest_classifier.pkl'))
+xgb_classifier = joblib.load(os.path.join(base_path, '..', 'api', 'xgboost_classifier.pkl'))
+hybrid_classifier = joblib.load(os.path.join(base_path, '..', 'api', 'hybrid_classifier.pkl'))
+preprocessor = joblib.load(os.path.join(base_path, '..', 'api', 'preprocessor.pkl'))
+label_encoder = joblib.load(os.path.join(base_path, '..', 'api', 'label_encoder.pkl'))
 
 # Load the dataset
-df = pd.read_csv('/home/user/Desktop/Wapi Daktari/data/wapi_daktari_healthcare_dataset.csv')
+df = pd.read_csv(os.path.join(base_path, '..', '..', 'data', 'wapi_daktari_healthcare_dataset.csv'))
 
 # Define dropdown values
 HOSPITALS = df['hospital_name'].unique().tolist()
@@ -141,6 +146,8 @@ def ussd():
     session_id = request.form.get("sessionId")
     phone_number = request.form.get("phoneNumber")
     text = request.form.get("text")
+    
+    logger.info(f"Received USSD request: SessionID: {session_id}, Phone: {phone_number}, Text: {text}")
 
     inputs = text.split("*")
     step = len(inputs)
@@ -250,6 +257,3 @@ def menu(response):
 
 def end(response):
     return f"END {response}"
-
-if __name__ == "__main__":
-    app.run(port=8080)
