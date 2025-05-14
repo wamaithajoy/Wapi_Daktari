@@ -18,7 +18,6 @@ hybrid_classifier = joblib.load(os.path.join(base_path, 'hybrid_classifier.pkl')
 preprocessor = joblib.load(os.path.join(base_path, 'preprocessor.pkl'))
 label_encoder = joblib.load(os.path.join(base_path, 'label_encoder.pkl'))
 
-
 @app.route('/')
 def home():
     app.logger.debug("Home route accessed")
@@ -28,8 +27,11 @@ def home():
 def test():
     return "Test endpoint working"
 
-@app.route('/predict_regression', methods=['POST'])
+@app.route('/predict_regression', methods=['GET', 'POST'])
 def predict_regression():
+    if request.method == 'GET':
+        return "This is the predict_regression endpoint. Use POST method with JSON data to make predictions."
+    
     data = request.get_json(force=True)
     features = preprocessor.transform(np.array(data['features']).reshape(1, -1))
     prediction_rf = rf_regressor.predict(features)
@@ -41,8 +43,11 @@ def predict_regression():
         'hybrid': prediction_hybrid.tolist()
     })
 
-@app.route('/predict_classification', methods=['POST'])
+@app.route('/predict_classification', methods=['GET', 'POST'])
 def predict_classification():
+    if request.method == 'GET':
+        return "This is the predict_classification endpoint. Use POST method with JSON data to make predictions."
+    
     data = request.get_json(force=True)
     features = preprocessor.transform(np.array(data['features']).reshape(1, -1))
     prediction_rf = rf_classifier.predict(features)
@@ -54,8 +59,11 @@ def predict_classification():
         'hybrid': label_encoder.inverse_transform(prediction_hybrid).tolist()
     })
 
-@app.route('/ussd', methods=['POST'])
+@app.route('/ussd', methods=['GET', 'POST'])
 def ussd_callback():
+    if request.method == 'GET':
+        return "This is the USSD endpoint. Use POST method to interact with the USSD service."
+    
     session_id = request.values.get("sessionId", None)
     service_code = request.values.get("serviceCode", None)
     phone_number = request.values.get("phoneNumber", None)
