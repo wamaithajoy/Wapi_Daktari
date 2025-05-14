@@ -2,7 +2,9 @@ from flask import Flask, request, jsonify
 import joblib
 import numpy as np
 import os
+import logging
 
+logging.basicConfig(level=logging.DEBUG)
 app = Flask(__name__)
 
 # Load the trained models and preprocessor
@@ -16,8 +18,10 @@ hybrid_classifier = joblib.load(os.path.join(base_path, 'hybrid_classifier.pkl')
 preprocessor = joblib.load(os.path.join(base_path, 'preprocessor.pkl'))
 label_encoder = joblib.load(os.path.join(base_path, 'label_encoder.pkl'))
 
+
 @app.route('/')
 def home():
+    app.logger.debug("Home route accessed")
     return "Welcome to Wapi Daktari API"
 
 @app.route('/predict_regression', methods=['POST'])
