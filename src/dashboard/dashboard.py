@@ -3,6 +3,7 @@ import pandas as pd
 import plotly.express as px
 import joblib
 import numpy as np
+import os
 
 st.set_page_config(layout="wide")
 st.title('📊 Wapi Daktari Healthcare Dashboard')
@@ -15,14 +16,18 @@ uploaded_file = st.sidebar.file_uploader("Upload healthcare data CSV", type="csv
 if uploaded_file:
     df = pd.read_csv(uploaded_file)
 else:
-    df = pd.read_csv('../../data/wapi_daktari_healthcare_dataset.csv')
+    file_path = os.path.join(os.path.dirname(__file__), '..', '..', 'data', 'wapi_daktari_healthcare_dataset.csv')
+    df = pd.read_csv(file_path)
 
 # Ensure date format
 df['date'] = pd.to_datetime(df['date'])
 
 # Load preprocessor and encoder
-preprocessor = joblib.load('/home/user/Desktop/Wapi Daktari/src/api/preprocessor.pkl')
-label_encoder = joblib.load('/home/user/Desktop/Wapi Daktari/src/api/label_encoder.pkl')
+preprocessor_path = os.path.join(os.path.dirname(__file__), '..', 'api', 'preprocessor.pkl')
+label_encoder_path = os.path.join(os.path.dirname(__file__), '..', 'api', 'label_encoder.pkl')
+
+preprocessor = joblib.load(preprocessor_path)
+label_encoder = joblib.load(label_encoder_path)
 
 # Sidebar filters
 hospital = st.sidebar.selectbox('Select Hospital', df['hospital_name'].unique())
