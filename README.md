@@ -109,7 +109,7 @@ You can use these examples to test the API directly from your terminal, or use t
 
 For the USSD service, please note that this is typically accessed through a USSD gateway and not directly by end-users. The documentation provides this information for completeness and for testing purposes.
 
-If you encounter any issues or have questions about using the API, please contact the development team.
+If you encounter any issues or have questions about using the API, please contact me.
 
 ## Future Enhancements
 
