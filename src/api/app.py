@@ -158,6 +158,12 @@ curl -X POST https://wapi-daktari.onrender.com/predict_classification \
             <p><strong>Description:</strong> Handles USSD interactions for the service.</p>
             <p><strong>Note:</strong> This endpoint is typically accessed through a USSD gateway and not directly by users.</p>
         </div>
+        
+          <div class="endpoint">
+            <h2>4. Wapi Daktari Dashboard</h2>
+            <p><strong>URL:</strong> <a href="https://wapidaktari-lwhs69lmrfyyfd7cnqww9o.streamlit.app/" target="_blank">https://wapidaktari-lwhs69lmrfyyfd7cnqww9o.streamlit.app/</a></p>
+            <p><strong>Description:</strong> Interactive dashboard for visualizing Wapi Daktari data and predictions.</p>
+        </div>
 
         <p>For more information or support, please contact the development team.</p>
     </body>
