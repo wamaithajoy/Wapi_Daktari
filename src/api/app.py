@@ -16,6 +16,10 @@ hybrid_classifier = joblib.load(os.path.join(base_path, 'hybrid_classifier.pkl')
 preprocessor = joblib.load(os.path.join(base_path, 'preprocessor.pkl'))
 label_encoder = joblib.load(os.path.join(base_path, 'label_encoder.pkl'))
 
+@app.route('/')
+def home():
+    return "Welcome to Wapi Daktari API"
+
 @app.route('/predict_regression', methods=['POST'])
 def predict_regression():
     data = request.get_json(force=True)
@@ -85,7 +89,8 @@ def ussd_callback():
 
     return response
 
-
 if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 5000))
-    app.run(host='0.0.0.0', port=port)
+    if os.environ.get('FLASK_ENV') == 'production':
+        app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))
+    else:
+        app.run(debug=True)

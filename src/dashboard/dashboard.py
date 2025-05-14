@@ -84,7 +84,7 @@ mode_cong = filtered_data['congestion_level'].mode()[0]
 predicted_cong = mode_cong if mode_cong in label_encoder.classes_ else "Unknown"
 st.write(f"**Predicted Congestion Level:** {predicted_cong}")
 
-st.subheader("🚶‍♀️ Expected Walk-Ins")
+st.subheader("Expected Walk-Ins")
 fig = px.bar(filtered_data, x='time_block', y='expected_walk_ins', color='day_of_week', title="Expected Walk-Ins by Time")
 st.plotly_chart(fig, use_container_width=True)
 st.write(f"**Total Expected Walk-Ins:** {filtered_data['expected_walk_ins'].sum()} patients")
