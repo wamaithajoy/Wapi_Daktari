@@ -1,18 +1,20 @@
 from flask import Flask, request, jsonify
 import joblib
 import numpy as np
+import os
 
 app = Flask(__name__)
 
 # Load the trained models and preprocessor
-rf_regressor = joblib.load('/home/user/Desktop/Wapi Daktari/src/api/random_forest_regressor.pkl')
-xgb_regressor = joblib.load('/home/user/Desktop/Wapi Daktari/src/api/xgboost_regressor.pkl')
-hybrid_regressor = joblib.load('/home/user/Desktop/Wapi Daktari/src/api/hybrid_regressor.pkl')
-rf_classifier = joblib.load('/home/user/Desktop/Wapi Daktari/src/api/random_forest_classifier.pkl')
-xgb_classifier = joblib.load('/home/user/Desktop/Wapi Daktari/src/api/xgboost_classifier.pkl')
-hybrid_classifier = joblib.load('/home/user/Desktop/Wapi Daktari/src/api/hybrid_classifier.pkl')
-preprocessor = joblib.load('/home/user/Desktop/Wapi Daktari/src/api/preprocessor.pkl')
-label_encoder = joblib.load('/home/user/Desktop/Wapi Daktari/src/api/label_encoder.pkl')
+base_path = os.path.dirname(os.path.abspath(__file__))
+rf_regressor = joblib.load(os.path.join(base_path, 'random_forest_regressor.pkl'))
+xgb_regressor = joblib.load(os.path.join(base_path, 'xgboost_regressor.pkl'))
+hybrid_regressor = joblib.load(os.path.join(base_path, 'hybrid_regressor.pkl'))
+rf_classifier = joblib.load(os.path.join(base_path, 'random_forest_classifier.pkl'))
+xgb_classifier = joblib.load(os.path.join(base_path, 'xgboost_classifier.pkl'))
+hybrid_classifier = joblib.load(os.path.join(base_path, 'hybrid_classifier.pkl'))
+preprocessor = joblib.load(os.path.join(base_path, 'preprocessor.pkl'))
+label_encoder = joblib.load(os.path.join(base_path, 'label_encoder.pkl'))
 
 @app.route('/predict_regression', methods=['POST'])
 def predict_regression():
@@ -83,5 +85,7 @@ def ussd_callback():
 
     return response
 
+
 if __name__ == '__main__':
-    app.run(debug=True)
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port)
