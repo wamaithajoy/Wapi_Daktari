@@ -124,7 +124,7 @@ curl -X POST https://wapi-daktari.onrender.com/predict_classification \
             <p><strong>Description:</strong> Interactive dashboard for visualizing Wapi Daktari data and predictions.</p>
         </div>
 
-        <p>For more information or support, please contact joyywamaitha@gamil.com</p>
+        <p>For more information or support, please contact gmail: joyywamaitha@gamil.com</p>
     </body>
     </html>
     """
